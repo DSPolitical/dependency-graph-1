@@ -1,16 +1,16 @@
 # Dependency Graph
 
-[![Build Status](https://travis-ci.org/MikeRoetgers/dependency-graph.svg?branch=master)](https://travis-ci.org/MikeRoetgers/dependency-graph)
+[![Build Status](https://travis-ci.org/DSPolitical/dependency-graph-1.svg?branch=master)](https://travis-ci.org/DSPolitical/dependency-graph)
 
 This is a simple implementation of a dependency graph (directed acyclic graph). Define operations and dependencies between the different operations. The dependency manager keeps track of all dependencies and tells you which operations can be executed. This is especially convenient if you are working with long-running tasks and you want to identify which operations may run in parallel. 
  
 ## Example
 
 ```php
-$op1 = new GenericOperation(1);
-$op2 = new GenericOperation(2);
-$op3 = new GenericOperation(3);
-$op4 = new GenericOperation(4);
+$op1 = new ApiCallOperation(1);
+$op2 = new ApiCallOperation(2);
+$op3 = new ApiCallOperation(3);
+$op4 = new ApiCallOperation(4);
 
 $dm = new DependencyManager();
 $dm->addOperation($op1)->addOperation($op2)->addOperation($op3)->addOperation($op4);
@@ -59,9 +59,9 @@ More complex graphs are possible.
 The graph is acyclic, which means something like this is NOT allowed:
 
 ```php
-$op1 = new GenericOperation(1);
-$op2 = new GenericOperation(2);
-$op3 = new GenericOperation(3);
+$op1 = new ApiCallOperation(1);
+$op2 = new ApiCallOperation(2);
+$op3 = new ApiCallOperation(3);
 
 $dm = new DependencyManager();
 $dm->addOperation($op1)->addOperation($op2)->addOperation($op3);
@@ -84,12 +84,12 @@ Cycles will be detected when the graph is initialized. A CycleException will be 
 You can assign one or multiple tags to operations. Afterwards you can use tags to define dependencies.
 
 ```php
-$setupOperation1 = new GenericOperation('Setup1');
+$setupOperation1 = new ApiCallOperation('Setup1');
 $setupOperation1->addTag('setup');
-$setupOperation2 = new GenericOperation('Setup2');
+$setupOperation2 = new ApiCallOperation('Setup2');
 $setupOperation2->addTag('setup');
 
-$downstreamOperation = new GenericOperation('Downstream');
+$downstreamOperation = new ApiCallOperation('Downstream');
 
 $dm = new DependencyManager();
 $dm->addOperation($setupOperation1)->addOperation($setupOperation2)->addOperation($downstreamOperation);

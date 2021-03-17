@@ -1,6 +1,6 @@
 <?php
 
-namespace MikeRoetgers\DependencyGraph;
+namespace DSPolitical\DependencyGraph;
 
 interface Operation
 {

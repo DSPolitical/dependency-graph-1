@@ -1,15 +1,15 @@
 <?php
 
-namespace MikeRoetgers\DependencyGraph;
+namespace DSPolitical\DependencyGraph;
 
 class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimpleDependencyGraph()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
-        $op4 = new GenericOperation(4);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
+        $op4 = new ApiCallOperation(4);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -54,14 +54,14 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testDependencyGraphWithTwoEntryNodes()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
-        $op4 = new GenericOperation(4);
-        $op5 = new GenericOperation(5);
-        $op6 = new GenericOperation(6);
-        $op7 = new GenericOperation(7);
-        $op8 = new GenericOperation(8);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
+        $op4 = new ApiCallOperation(4);
+        $op5 = new ApiCallOperation(5);
+        $op6 = new ApiCallOperation(6);
+        $op7 = new ApiCallOperation(7);
+        $op8 = new ApiCallOperation(8);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -122,14 +122,14 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUsingTagsToDefineDependencies()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
         $op2->addTag('MyTag');
-        $op3 = new GenericOperation(3);
+        $op3 = new ApiCallOperation(3);
         $op3->addTag('MyTag');
-        $op4 = new GenericOperation(4);
+        $op4 = new ApiCallOperation(4);
         $op4->addTag('MyTag');
-        $op5 = new GenericOperation(5);
+        $op5 = new ApiCallOperation(5);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -170,9 +170,9 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCycleDetectionWithoutEntryPoint()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -187,17 +187,17 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $dm->addDependencyByOperation($op2, $op3);
         $dm->addDependencyByOperation($op3, $op1);
 
-        $this->setExpectedException('MikeRoetgers\\DependencyGraph\\Exception\\CycleException');
+        $this->setExpectedException('DSPolitical\\DependencyGraph\\Exception\\CycleException');
 
         $dm->getExecutableOperations();
     }
 
     public function testCycleDetectionWithCycleWithinGraph()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
-        $op4 = new GenericOperation(4);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
+        $op4 = new ApiCallOperation(4);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -216,17 +216,17 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $dm->addDependencyByOperation($op3, $op4);
         $dm->addDependencyByOperation($op4, $op2);
 
-        $this->setExpectedException('MikeRoetgers\\DependencyGraph\\Exception\\CycleException');
+        $this->setExpectedException('DSPolitical\\DependencyGraph\\Exception\\CycleException');
 
         $dm->getExecutableOperations();
     }
 
     public function testMarkAsStartedFunctionality()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
-        $op4 = new GenericOperation(4);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
+        $op4 = new ApiCallOperation(4);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -270,10 +270,10 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGraphIsNotWritableAfterInitializing()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
-        $op3 = new GenericOperation(3);
-        $op4 = new GenericOperation(4);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
+        $op3 = new ApiCallOperation(3);
+        $op4 = new ApiCallOperation(4);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);
@@ -288,15 +288,15 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 
         $dm->getExecutableOperations();
 
-        $this->setExpectedException('MikeRoetgers\\DependencyGraph\\Exception\\GraphWriteException');
+        $this->setExpectedException('DSPolitical\\DependencyGraph\\Exception\\GraphWriteException');
 
         $dm->addDependencyByOperation($op1, $op4);
     }
 
     public function testIsFinishedFunctionality()
     {
-        $op1 = new GenericOperation(1);
-        $op2 = new GenericOperation(2);
+        $op1 = new ApiCallOperation(1);
+        $op2 = new ApiCallOperation(2);
 
         $dm = new DependencyManager();
         $dm->addOperation($op1);

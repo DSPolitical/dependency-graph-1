@@ -1,8 +1,8 @@
 <?php
 
-namespace MikeRoetgers\DependencyGraph;
+namespace DSPolitical\DependencyGraph;
 
-class GenericOperation implements Operation
+class ApiCallOperation implements Operation
 {
     /**
      * @var string

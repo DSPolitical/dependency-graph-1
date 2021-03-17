@@ -1,6 +1,6 @@
 <?php
 
-namespace MikeRoetgers\DependencyGraph\Exception;
+namespace DSPolitical\DependencyGraph\Exception;
 
 class GraphWriteException extends \RuntimeException
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace MikeRoetgers\DependencyGraph;
+namespace DSPolitical\DependencyGraph;
 
-use MikeRoetgers\DependencyGraph\Exception\CycleException;
-use MikeRoetgers\DependencyGraph\Exception\GraphWriteException;
+use DSPolitical\DependencyGraph\Exception\CycleException;
+use DSPolitical\DependencyGraph\Exception\GraphWriteException;
 
 class DependencyManager
 {

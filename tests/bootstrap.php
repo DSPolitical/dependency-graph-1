@@ -6,4 +6,4 @@ if (!file_exists($file)) {
 }
 
 $loader = require_once $file;
-$loader->add('MikeRoetgers\\DependencyGraph\\', __DIR__);
+$loader->add('DSPolitical\\DependencyGraph\\', __DIR__);
