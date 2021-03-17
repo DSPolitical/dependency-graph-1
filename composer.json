@@ -7,6 +7,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Mike Roetgers",
+            "email": "mike@roetgers.org"
+        },
+        {
             "name": "Robert Fox",
             "email": "rfox@dspolitical.com"
         }
