@@ -25,6 +25,11 @@ class Node
     private $started = false;
 
     /**
+     * @var bool
+     */
+    private $executed = false;
+
+    /**
      * @param Operation $operation
      */
     public function __construct(Operation $operation)
@@ -88,5 +93,15 @@ class Node
     public function isStarted()
     {
         return $this->started;
+    }
+
+    public function setExecuted($executed = true)
+    {
+        $this->executed = $executed;
+    }
+
+    public function isExecuted()
+    {
+        return $this->executed;
     }
 }
