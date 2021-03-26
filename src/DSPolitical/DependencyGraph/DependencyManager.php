@@ -11,6 +11,7 @@ class DependencyManager
      * @var Node[]
      */
     private $nodes = array();
+    private $eternalNodes = array();
 
     /**
      * @var bool
@@ -28,6 +29,7 @@ class DependencyManager
             throw new GraphWriteException('Graph was already initialized.');
         }
         $this->nodes[$operation->getId()] = new Node($operation);
+        $this->eternalNodes[$operation->getId()] = new Node($operation);
         return $this;
     }
 
@@ -50,6 +52,8 @@ class DependencyManager
 
         $this->nodes[$childOperation->getId()]->addDependency($parentOperation->getId());
         $this->nodes[$parentOperation->getId()]->addDependent($childOperation->getId());
+        $this->eternalNodes[$childOperation->getId()]->addDependency($parentOperation->getId());
+        $this->eternalNodes[$parentOperation->getId()]->addDependent($childOperation->getId());
     }
 
     /**
@@ -108,11 +112,21 @@ class DependencyManager
     }
 
     /**
+     * The original handling of operations
      * @return Node[]
      */
     public function getOperations()
     {
         return $this->nodes;
+    }
+
+    /**
+     * The handling of operations where we can see which are already finished (for display to users)
+     * @return Node[]
+     */
+    public function getEternalOperations()
+    {
+        return $this->eternalNodes;
     }
 
     /**
@@ -125,6 +139,7 @@ class DependencyManager
     {
         $this->initGraph();
         $this->nodes[$operation->getId()]->setStarted();
+        $this->eternalNodes[$operation->getId()]->setStarted();
     }
 
     /**
@@ -136,8 +151,12 @@ class DependencyManager
         $node = $this->nodes[$operation->getId()];
         foreach ($node->getDependents() as $dependent) {
             $this->nodes[$dependent]->decreaseDependencyCounter();
+            $this->eternalNodes[$dependent]->decreaseDependencyCounter();
         }
         unset($this->nodes[$operation->getId()]);
+        // N.B. do NOT unset the eternalNodes... that's precisely why they're eternal!
+        // Instead, use the "executed" property, so that we can show completed parts of the graph on the front-end
+        $this->eternalNodes[$operation->getId()]->setStarted();
     }
 
     /**
