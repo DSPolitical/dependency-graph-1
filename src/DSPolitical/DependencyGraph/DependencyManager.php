@@ -108,6 +108,57 @@ class DependencyManager
     }
 
     /**
+     * @param $id
+     * @return Operation|false
+     */
+    public function getExecutableOperationById($id)
+    {
+        $this->initGraph();
+        $operation = false;
+        $node = $this->getNodeById($id);
+        if ($node) {
+            if (!$node->hasDependenciesLeft() && !$node->isStarted()) {
+                $operation = $node->getOperation();
+            }
+        }
+
+        return $operation;
+    }
+
+    /**
+     * @param $id
+     * @return Operation|false
+     */
+    public function getOperationById($id)
+    {
+        $operation = false;
+        $node = $this->getNodeById($id);
+        if ($node) {
+            $operation = $node->getOperation();
+        }
+
+        return $operation;
+    }
+
+    /**
+     * @param $id
+     * @return Node|false
+     */
+    private function getNodeById($id)
+    {
+        $matchingNode = false;
+
+        foreach ($this->nodes as $node) {
+            if ($node->getId() == $id) {
+                $matchingNode = $node;
+                break;
+            }
+        }
+
+        return $matchingNode;
+    }
+
+    /**
      * @return Node[]
      */
     public function getOperations()
